@@ -10,7 +10,7 @@ CPPFLAGS += -fpermissive
 
 ##############
 #extra flags for cxx compile ${CXX}
-#CXXFLAGS += std=c++0x
+CXXFLAGS += -std=c++0x
 
 ##############
 #add library paths: -L${library_dirs}
@@ -18,6 +18,6 @@ CPPFLAGS += -fpermissive
 
 ##############
 #add libraries: -l${library}
-LDLIBS +=
+LDLIBS += -lpthread
 ############################################
 

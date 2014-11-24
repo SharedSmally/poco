@@ -1,12 +1,12 @@
 # define target, etc vars
-include makefile.vars
+include ../makefile.vars
 
 ##  std flags
-include makefile.std
+include ../makefile.std
 
 ###############################################
-main:app
+main:test
 	
-include makefile.targets
+include ../makefile.targets
 
 
