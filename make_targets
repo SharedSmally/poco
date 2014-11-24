@@ -1,0 +1,14 @@
+#various targets:
+#all *.cc files
+CC_SOURCES=$(wildcard *.cc)
+TEST_SOURCES=
+TEST_TARGETS=
+CC_OBJ_SOURCES=
+CC_OBJS=
+
+print:
+  @echo "cc sources:${CC_SOURCES}"
+  @echo "cc object sources:${CC_OBJ_SOURCES}"
+  @echo "objects:${CC_OBJS}"
+  @echo "test sources:${CC_SOURCES}"
+  
