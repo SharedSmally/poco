@@ -1,0 +1,31 @@
+app:${APP_TARGETS}
+	
+
+test:${TEST_TARGETS}
+	
+
+clean:
+	${RM} -rf *.o
+
+cleanall:clean
+	${RM} -rf ${APP_TARGETS}
+	${RM} -rf ${TEST_TARGETS}
+
+
+###########################
+print:
+	@echo "cc sources:"
+	@echo "   ${CC_SRCS}"
+	@echo "cc obj sources:"
+	@echo "   ${CC_OBJ_SRCS}"
+	@echo "objects:"
+	@echo "   ${CC_OBJS}"
+	@echo "test sources:"
+	@echo "   ${TEST_CC_SRCS}"
+	@echo "test targets:"
+	@echo "   ${TEST_TARGETS}"
+	@echo "app sources:"
+	@echo "   ${APP_CC_SRCS}"
+	@echo "app targets:"
+	@echo "   ${APP_TARGETS}"
+
