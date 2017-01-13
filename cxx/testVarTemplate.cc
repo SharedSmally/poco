@@ -12,6 +12,32 @@ void tfunc(const Arguments&... args)
     helper_func(xobj, args...);
 }
 */
+template<typename T,  typename V>
+void set(T & obj, const V &&  val)
+{
+      obj.set(val);
+}
+template<typename T, typename V,  typename... Args>
+void set(T & obj, const V && v, Args&&... args)
+{
+     obj.set(v);
+     set(obj, std::forward<Args>(args)...);
+}
+
+template<typename T>
+void get(const T & obj)
+{ }
+template<typename T,  typename V>
+void get(const T & obj, V &  val)
+{
+    obj.get(val);
+}
+template<typename T, typename V,  typename... Args>
+void get(T & obj, V & v, Args&... args)
+{
+     obj.get(v);
+     get(obj, args...);
+}
 
 template <typename T1, typename ... Args>
 void print_1(T1 & arg, Args&& ...args) {
