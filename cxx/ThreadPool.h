@@ -5,6 +5,51 @@ public:
 	virtual void run() = 0;
 };
 
+class Thread
+{
+public:
+	Thread()
+	{ };
+	virtual ~Thread()
+	{ };
+	void join()
+	{
+		thread_.join();
+	}
+protected:
+	virtual void run() = 0;
+
+protected:
+	void start()
+	{
+		thread_=std::move( std::thread( [this] { run(); } ) );
+	}
+
+protected:
+	std::thread thread_;
+};
+
+class Threader : public Thread
+{
+public:
+	Threader(Runnable & runner)
+		: runner_(runner)
+	{
+		start();
+	};
+	virtual ~Threader()
+	{ };
+
+protected:
+	virtual void run()
+	{
+		runner_.run();
+	}
+
+protected:
+	Runnable & runner_;
+};
+
 class ThreadPool
 {
 public:
@@ -12,11 +57,8 @@ public:
 	{ };
 	virtual ~ThreadPool()
 	{ };
-	void start(int size) {
-		for (int i=0; i<size; i++)
-			threads_.push_back(std::thread(&ThreadPool::run, std::ref(*this)));
-	}
-	void wait() {
+	
+	void join() {
 		 for(auto it=threads_.begin(); it!=threads_.end();++it) {
 			it->join();
 		}
@@ -24,6 +66,11 @@ public:
 protected:
 	virtual void run() = 0;
 
+	void start(int size) {
+		for (int i=0; i<size; i++)
+			threads_.push_back(std::thread( [this] { run(); } ) );
+	}
+	
 protected:
 	std::vector<std::thread> threads_;
 };
@@ -31,9 +78,11 @@ protected:
 class ThreadPooler : public ThreadPool
 {
 public:
-	ThreadPooler(Runnable & runner)
+	ThreadPooler(Runnable & runner, int size = std::thread::hardware_concurrency() )
 		: runner_(runner)
-	{ };
+	{
+	     start(size);
+	};
 	virtual ~ThreadPooler()
 	{ };
 
