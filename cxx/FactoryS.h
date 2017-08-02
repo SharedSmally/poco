@@ -12,6 +12,15 @@ public:
     typedef std::shared_ptr<T> ptr_type;
 
 public:
+    Factory()    {}
+    ~Factory()    {}
+
+    ptr_type create(const std::string & name);
+    
+    template <typename IMPL>
+    bool registerFactory(const std::string & name);
+
+private:
     class FactoryImpl
     {
     public:
@@ -32,29 +41,26 @@ public:
         }
     };
 
-public:
-    Factory()
-    {}
-    virtual ~Factory()
-    {}
-
-    ptr_type create(const std::string & name)
-    {
-        auto iter = container_.find(name);
-        return iter==container_.end() ? ptr_type(nullptr) : iter->second->create();
-    }
-
-    template <typename IMPL>
-    bool registerFactory(const std::string & name)
-    {
-        return container_.insert(std::make_pair(name, std::make_shared< TFactoryImpl<IMPL > >() )).second;
-    }
-
 private:
     container_type container_;
     Factory(const Factory & obj) = delete;
     Factory& operator=(const Factory & obj) = delete;
 };
+
+
+template <typename T>
+typename Factory<T>::ptr_type Factory<T>::create(const std::string & name)
+{
+    auto iter = container_.find(name);
+    return iter==container_.end() ? ptr_type(nullptr) : iter->second->create();
+}
+
+template <typename T>
+template <typename IMPL>
+bool Factory<T>::registerFactory(const std::string & name)
+{
+    return container_.insert(std::make_pair(name, std::make_shared< TFactoryImpl<IMPL > >() )).second;
+}
 
 #endif
 
