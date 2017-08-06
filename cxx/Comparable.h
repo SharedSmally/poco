@@ -37,7 +37,7 @@ public:
     }
     virtual bool operator!=(const Comparable &obj) const
     {
-        return compare(obj) == EQ;
+        return compare(obj) != EQ;
     }
     virtual bool operator<(const Comparable &obj) const
     {
