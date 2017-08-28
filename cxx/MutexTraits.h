@@ -16,6 +16,28 @@
 //  condition_variable ;
 //  condition_variable_any ;
 
+enum MutexType {
+   NORMAL = 0,
+   RECURSIVE = 1,
+   SHARED = 2
+};
+
+template <typename MutexType >
+struct MutexTraits {
+    typename std::mutex mutex_type;
+    typename std::timed_mutex timed_mutex_type;
+};
+template < >
+struct MutexTraits< RECURSIVE > {
+    typename std::recursive_mutex mutex_type;
+    typename std::recursive_timed_mutex timed_mutex_type;
+};
+template < >
+struct MutexTraits< SHARED > {
+    typename std::shared_mutex mutex_type;
+    typename std::shared_timed_mutex timed_mutex_type;
+};
+
 template <typename MUTEX >
 struct MutexTraits
 {
