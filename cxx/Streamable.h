@@ -3,34 +3,34 @@
 
 #include <iostream>
 
-class InStreamable
+class IStreamable
 {
-    friend std::istream & operator>>(std::istream & in, InStreamable & obj)
+    friend std::istream & operator>>(std::istream & in, IStreamable & obj)
     {
         obj.input(in); return in;
     }
 
 public:
-    virtual ~InStreamable() {}
+    virtual ~IStreamable() {}
     void input( )  {  input(std::cin);   }
     virtual void input(std::istream & in ) = 0;
 };
 
-class OutStreamable
+class OStreamable
 {
-    friend std::ostream & operator<<(std::ostream & out, const OutStreamable & obj)
+    friend std::ostream & operator<<(std::ostream & out, const OStreamable & obj)
     {
         obj.output(out); return out;
     }
 
 public:
-    virtual ~OutStreamable() {}
+    virtual ~OStreamable() {}
     void output( ) {  output(std::cout); }
 
     virtual void output(std::ostream & out ) const = 0;
 };
 
-class Streamable : virtual public InStreamable, virtual public OutStreamable
+class Streamable : virtual public IStreamable, virtual public OStreamable
 {
 public:
     virtual ~Streamable() {}
